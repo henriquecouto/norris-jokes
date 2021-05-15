@@ -1,12 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import JokeCard from ".";
-import Joke from "../../entities/Joke";
-
-const jokeMock = new Joke({
-  id: 1,
-  categories: ["any category 1", "any category 2"],
-  joke: "any joke text",
-});
+import { jokeMock } from "../../mocks/joke";
 
 describe("Joke Card Component", () => {
   beforeEach(() => {
