@@ -2,6 +2,7 @@ import { Typography } from "@material-ui/core";
 import { createContext, FC, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import Joke from "../../entities/Joke";
+import urls from "../../utils/constants/urls";
 import { dataFetcher } from "../../utils/dataFetcher";
 import { JokeResponse, JokeStore } from "./JokesStore.types";
 
@@ -11,16 +12,14 @@ export const useJokes = () => useContext(JokesStoreContext);
 
 export const JokesProvider: FC = ({ children }) => {
   const { data, error } = useSWR<JokeResponse<Array<Joke>>>(
-    "http://api.icndb.com/jokes/random/10",
+    urls.randomJokes(10),
     dataFetcher
   );
 
   const [jokes, setJokes] = useState<Array<Joke>>([]);
 
   const loadMoreOne = async () => {
-    const joke = await dataFetcher<JokeResponse<Joke>>(
-      "http://api.icndb.com/jokes/random"
-    );
+    const joke = await dataFetcher<JokeResponse<Joke>>(urls.randomJoke());
     return joke;
   };
 
