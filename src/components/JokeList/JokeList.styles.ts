@@ -2,10 +2,8 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 
 const useJokeListStyles = makeStyles((theme: Theme) => ({
   root: {
-    height: "inherit",
-    overflowY: "scroll",
+    width: "100%",
     boxShadow: theme.shadows[1],
-    position: "fixed",
   },
   paper: {
     padding: theme.spacing(2),

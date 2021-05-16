@@ -27,7 +27,30 @@ const JokeList: FC<JokeListProps> = ({ jokes, onRemoveJoke }) => {
 
   return (
     <DragDropContext onDragEnd={handleRemoveJoke}>
-      <Droppable droppableId="joke-list">
+      <Droppable
+        droppableId="joke-list"
+        mode="virtual"
+        renderClone={(provided, snapshot, rubric) => {
+          return (
+            <div
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              style={
+                snapshot.isDropAnimating
+                  ? {
+                      ...provided.draggableProps.style,
+                      transitionDuration: "0.001s",
+                    }
+                  : provided.draggableProps.style
+              }
+              data-testid="draggable-joke"
+            >
+              <JokeCard joke={jokes[rubric.source.index]} />
+            </div>
+          );
+        }}
+      >
         {(provided, snapshot) => (
           <div
             {...provided.droppableProps}
@@ -42,7 +65,7 @@ const JokeList: FC<JokeListProps> = ({ jokes, onRemoveJoke }) => {
                 data-testid="joke-list"
               >
                 {jokes.map((joke, index) => (
-                  <Grid item key={joke.id}>
+                  <Grid item key={`${joke.id}-${index}`}>
                     <Draggable draggableId={joke.id.toString()} index={index}>
                       {(provided, snapshot) => (
                         <div
@@ -67,7 +90,6 @@ const JokeList: FC<JokeListProps> = ({ jokes, onRemoveJoke }) => {
                 ))}
               </Grid>
             </Paper>
-            {provided.placeholder}
           </div>
         )}
       </Droppable>
